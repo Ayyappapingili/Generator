@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Generated Quiz</h1>
+    <div id="quizOutput"></div>
+    <button onclick="window.location.href='/'">Generate New Quiz</button>
+
+    <!-- Wave animation container -->
+    <div class="wave-container">
+        <img src="{{ url_for('static', filename='wave.png') }}" alt="" aria-hidden="true">
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

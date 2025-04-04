@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Quiz Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1 data-text="AI Quiz Generator">AI Quiz Generator</h1>
+    
+    <form id="quizForm">
+        <label for="topic">Topic:</label>
+        <select id="topic" name="topic" required>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            <option value="Technology">Technology</option>
+            <option value="General Knowledge">General Knowledge</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Sports">Sports</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Mythology">Mythology</option>
+            <option value="Other">Other (Enter your own topic)</option>
+        </select>
+        <input type="text" id="custom_topic" name="custom_topic" placeholder="Enter custom topic" style="display:none;">
+
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+
+        <label for="num_questions">Number of Questions:</label>
+        <input type="number" id="num_questions" value="5" min="1" max="20">
+
+        <label for="question_type">Question Type:</label>
+        <select id="question_type">
+            <option value="multiple_choice">Multiple Choice</option>
+            <option value="true_false">True/False</option>
+        </select>
+
+        <button type="submit">Generate Quiz</button>
+    </form>
+
+    <p id="loading" style="display:none;">Generating quiz... Please wait.</p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("quizForm").addEventListener("submit", async function (event) {
+                event.preventDefault();
+                
+                let topic = document.getElementById("topic").value;
+                const customTopic = document.getElementById("custom_topic").value;
+                if (topic === "Other") {
+                    topic = customTopic.trim() || "General Knowledge";
+                }
+                const difficulty = document.getElementById("difficulty").value;
+                const num_questions = document.getElementById("num_questions").value;
+                const question_type = document.getElementById("question_type").value;
+
+                document.getElementById("loading").style.display = "block";
+
+                const requestData = {
+                    topic: topic,
+                    difficulty: difficulty,
+                    num_questions: num_questions,
+                    question_type: question_type
+                };
+
+                try {
+                    const response = await fetch("/generate_quiz", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(requestData)
+                    });
+
+                    const data = await response.json();
+                    if (data.quiz) {
+                        localStorage.setItem("quizData", JSON.stringify(data.quiz));
+                        window.location.href = "/quiz";
+                    } else {
+                        alert("Failed to generate quiz. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while generating the quiz.");
+                } finally {
+                    document.getElementById("loading").style.display = "none";
+                }
+            });
+
+            document.getElementById("topic").addEventListener("change", function() {
+                var customTopicInput = document.getElementById("custom_topic");
+                customTopicInput.style.display = (this.value === "Other") ? "block" : "none";
+            });
+        });
+    </script>
+        <div class="waves">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+    <defs>
+      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+    </defs>
+    <g class="parallax">
+      <use xlink:href="#gentle-wave" x="0" y="0" fill="rgba(255,255,255,0.7)" />
+      <use xlink:href="#gentle-wave" x="0" y="3" fill="rgba(255,255,255,0.5)" />
+      <use xlink:href="#gentle-wave" x="0" y="5" fill="rgba(255,255,255,0.3)" />
+      <use xlink:href="#gentle-wave" x="0" y="7" fill="#fff" />
+    </g>
+  </svg>
+          
+    </div>
+      
+</body>
+</html>

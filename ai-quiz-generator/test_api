@@ -1,0 +1,34 @@
+import os
+import json
+import requests
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# Check if API key is loaded
+if not GEMINI_API_KEY:
+    print("❌ API key is missing. Please check your .env file.")
+    exit()
+
+GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+
+# Test request
+test_prompt = "Generate a fun quiz question about space."
+
+headers = {"Content-Type": "application/json"}
+params = {"key": GEMINI_API_KEY}
+data = {"contents": [{"parts": [{"text": test_prompt}]}]}
+
+response = requests.post(GEMINI_API_URL, headers=headers, params=params, json=data)
+
+# Print the response
+print("🔍 Checking API Key...")
+print(f"📡 Status Code: {response.status_code}")
+print(f"📩 Response: {response.text}")
+
+if response.status_code == 200:
+    print("✅ API Key is working!")
+else:
+    print("❌ API Key is invalid or not working. Please check your credentials.")

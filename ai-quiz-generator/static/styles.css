@@ -1,0 +1,163 @@
+/* General styles */
+html, body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 0;
+    height: auto;
+    min-height: 100vh;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Form and header styles */
+h1 {
+    color: #333;
+    margin-top: 30px;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+label, select, input {
+    margin: 10px 0;
+    display: block;
+    width: 100%;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Quiz display */
+#quizOutput {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.question-container {
+    margin-bottom: 20px;
+}
+
+/* Options styling */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: #e7e7e7;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+ul li:hover {
+    background: #d4d4d4;
+}
+
+/* Option feedback */
+.option.correct {
+    background-color: #c8f7c5;
+}
+
+.option.incorrect {
+    background-color: #f7c5c5;
+}
+
+/* Answer reveal animation */
+.answer {
+    display: block;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.answer.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Wave background */
+.wave-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.wave-container img {
+    width: 200%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: wave-animation 8s infinite linear;
+}
+
+@keyframes wave-animation {
+    0% { transform: translateX(0) translateY(5px); }
+    50% { transform: translateX(-50%) translateY(-5px); }
+    100% { transform: translateX(0) translateY(5px); }
+}
+
+/* Circular indicators for options */
+.option::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    border: 2px solid #666;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Correct selection: green circle */
+.option.correct::before {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+/* Incorrect selection: red circle */
+.option.incorrect::before {
+    background-color: #f44336;
+    border-color: #f44336;
+}
